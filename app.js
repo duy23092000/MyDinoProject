@@ -176,7 +176,7 @@ function renderToDOM() {
 // Remove form from screen
 function removeForm() {
   const form = document.getElementById("dino-compare");
-  form.remove();
+  form.style.display = 'none'
 }
 
 // On button click, prepare and display infographic
