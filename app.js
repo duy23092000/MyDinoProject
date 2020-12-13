@@ -131,11 +131,39 @@ function generateTile(dino, factObject) {
   let avatar = document.createElement('img')
   avatar.src = "images/" + dino?.species.toLowerCase() + ".png";
   let name = document.createElement('h3')
+  // name.style.
   name.innerHTML = dino?.species
   let fact = document.createElement('p')
   fact.innerHTML = randomFact(factObject);
-  grid.appendChild(avatar)
   grid.appendChild(name)
+  grid.appendChild(avatar)
+  grid.appendChild(fact)
+  return grid;
+}
+
+function generateHumanTile(human) {
+  let grid = document.createElement('div')
+  grid.className = 'grid-item';
+  let avatar = document.createElement('img')
+  avatar.src = "images/human.png";
+  let name = document.createElement('h3')
+  name.innerHTML = human.name
+  grid.appendChild(name)
+  grid.appendChild(avatar)
+  return grid;
+}
+
+function generateBirdTile(bird) {
+  let grid = document.createElement('div')
+  grid.className = 'grid-item';
+  let avatar = document.createElement('img')
+  avatar.src = "images/pigeon.png";
+  let name = document.createElement('h3')
+  name.innerHTML = bird?.species
+  let fact = document.createElement('p')
+  fact.innerHTML = arrayOfFact[7]?.fact4;
+  grid.appendChild(name)
+  grid.appendChild(avatar)
   grid.appendChild(fact)
   return grid;
 }
@@ -144,17 +172,16 @@ function generateTile(dino, factObject) {
 function renderToDOM() {
   getFact();
   const mainGrid = document.getElementById('grid')
-  for (let i = j = 0; i < 8; i ++) {
-    
+  for (let i = j = 0; i < 7; i ++) {
+    if (i == 4) {
+      mainGrid.appendChild(generateHumanTile(humanObject))
+    }
+    mainGrid.appendChild(generateTile(myDino[i], arrayOfFact[i]))
   }
-  let heightCompare = compareHeight();
-  let weightCompare = compareWeight();
-  let dietCompare = compareDiet();
-  console.log(heightCompare);
-  console.log(weightCompare);
-  console.log(dietCompare);
-  console.log(dinoFact);
-  console.log(arrayOfFact);
+  mainGrid.appendChild(generateBirdTile(myDino[7]))
+  compareHeight();
+  compareWeight();
+  compareDiet();
 }
 
 // Remove form from screen
