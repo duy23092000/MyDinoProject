@@ -107,6 +107,11 @@ function compareDiet() {
   return dietFact;
 }
 
+function randomFact (fact) {
+  let keys = Object.keys(fact);
+  return fact[keys[ keys.length * Math.random() << 0]];
+};
+
 function getFact() {
   for (let i = 0; i < 8; i++) {
     let factObject = {};
@@ -120,7 +125,7 @@ function getFact() {
 
 
 // Generate Tiles for each Dino in Array
-function generateTile(dino) {
+function generateTile(dino, factObject) {
   let grid = document.createElement('div')
   grid.className = 'grid-item';
   let avatar = document.createElement('img')
@@ -128,7 +133,7 @@ function generateTile(dino) {
   let name = document.createElement('h3')
   name.innerHTML = dino?.species
   let fact = document.createElement('p')
-  fact.innerHTML = 
+  fact.innerHTML = randomFact(factObject);
   grid.appendChild(avatar)
   grid.appendChild(name)
   grid.appendChild(fact)
@@ -139,8 +144,8 @@ function generateTile(dino) {
 function renderToDOM() {
   getFact();
   const mainGrid = document.getElementById('grid')
-  for (let i = 0; i < 9; i ++) {
-    mainGrid.appendChild(generateTile(myDino[i]))
+  for (let i = j = 0; i < 8; i ++) {
+    
   }
   let heightCompare = compareHeight();
   let weightCompare = compareWeight();
