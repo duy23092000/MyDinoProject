@@ -1,6 +1,8 @@
 let dinoArray = [];
 let myDino = [];
 let humanObject = {};
+let dinoFact = [];
+let arrayOfFact = [];
 
 // Create Dino Constructor
 function DinoContructor(species, weight, height, diet, where, when, fact) {
@@ -10,7 +12,7 @@ function DinoContructor(species, weight, height, diet, where, when, fact) {
   this.diet = diet;
   this.where = where;
   this.when = when;
-  this.fact = fact;
+  this.fact = dinoFact.push(fact);
 }
 
 // Create Dino Objects
@@ -39,6 +41,7 @@ function getDinoData() {
         );
       });
     });
+    return myDino;
 }
 
 
@@ -71,7 +74,7 @@ function createHumanObject() {
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function compareHeight() {
-  let heightFact = [];
+  let heightFact = []
   for (dino of myDino) {
     let heightGap = parseFloat(dino.height) - parseFloat(humanObject.height);
     heightFact.push(`The height gap between this dino and the human is ${heightGap} feet`)
@@ -82,7 +85,7 @@ function compareHeight() {
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function compareWeight() {
-  let weightFact = [];
+  let weightFact = []
   for (dino of myDino) {
     let weightGap = parseFloat(dino.weight) - parseFloat(humanObject.weight);
     weightFact.push(`Comparing by weight, the weight gap is ${weightGap} lbs`)
@@ -95,46 +98,74 @@ function compareWeight() {
 function compareDiet() {
   let dietFact = [];
   for (dino of myDino) {
-    console.log(humanObject.diet);
     if (dino.diet === humanObject.diet.toLowerCase()) {
       dietFact.push(`This dino and the human are in the same ${dino.diet} diet`)
     } else {
       dietFact.push(`No. They are not in the same diet!`)
     }
   }
-  // console.log(dietFact);
   return dietFact;
 }
 
+function getFact() {
+  for (let i = 0; i < 8; i++) {
+    let factObject = {};
+    factObject.fact1 = compareHeight()[i]
+    factObject.fact2 = compareWeight()[i]
+    factObject.fact3 = compareDiet()[i]
+    factObject.fact4 = dinoFact[i]
+    arrayOfFact.push(factObject);
+  }
+}
+
+
 // Generate Tiles for each Dino in Array
-function generateTile() {
-  let grid = document.createElement('grid')
+function generateTile(dino) {
+  let grid = document.createElement('div')
   grid.className = 'grid-item';
   let avatar = document.createElement('img')
+  avatar.src = "images/" + dino?.species.toLowerCase() + ".png";
   let name = document.createElement('h3')
+  name.innerHTML = dino?.species
   let fact = document.createElement('p')
+  fact.innerHTML = 
+  grid.appendChild(avatar)
+  grid.appendChild(name)
+  grid.appendChild(fact)
+  return grid;
 }
 
 // Add tiles to DOM
 function renderToDOM() {
-  let dietCompare = compareDiet();
+  getFact();
+  const mainGrid = document.getElementById('grid')
+  for (let i = 0; i < 9; i ++) {
+    mainGrid.appendChild(generateTile(myDino[i]))
+  }
   let heightCompare = compareHeight();
   let weightCompare = compareWeight();
-  console.log(dietCompare);
+  let dietCompare = compareDiet();
   console.log(heightCompare);
   console.log(weightCompare);
-  console.log(myDino);
+  console.log(dietCompare);
+  console.log(dinoFact);
+  console.log(arrayOfFact);
 }
 
 // Remove form from screen
+function removeForm() {
+  const form = document.getElementById('dino-compare')
+  form.remove();
+}
 
 // On button click, prepare and display infographic
 function createButton() {
   const button = document.getElementById('btn');
   button.addEventListener('click', () => {
-    getDinoData(),
     createHumanObject(),
+    removeForm(),
     renderToDOM()
   })
 }
+getDinoData(),
 createButton();
